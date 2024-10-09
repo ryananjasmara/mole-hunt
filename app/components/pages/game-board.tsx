@@ -18,7 +18,6 @@ export default function GameBoard({ onGameEnd, onBackToMenu }: GameBoardProps) {
   const [timeLeft, setTimeLeft] = useState(30);
   const [molePosition, setMolePosition] = useState(-1);
   const [isMoleVisible, setIsMoleVisible] = useState(true);
-  const [moleTimer, setMoleTimer] = useState<NodeJS.Timeout | null>(null);
   const [lastClickTime, setLastClickTime] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const debouncedClickCount = useDebounce(clickCount, 1000);
@@ -37,11 +36,9 @@ export default function GameBoard({ onGameEnd, onBackToMenu }: GameBoardProps) {
     setIsMoleVisible(true);
 
     const hideDuration = Math.floor(Math.random() * (MAX_DELAY - MIN_DELAY + 1)) + MIN_DELAY;
-    const newMoleTimer = setTimeout(() => {
+    setTimeout(() => {
       setIsMoleVisible(false);
     }, hideDuration);
-
-    setMoleTimer(newMoleTimer);
   }, [lastClickTime, debouncedClickCount]);
 
   const gameTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -94,11 +91,8 @@ export default function GameBoard({ onGameEnd, onBackToMenu }: GameBoardProps) {
       if (gameTimerRef.current) {
         clearInterval(gameTimerRef.current);
       }
-      if (moleTimer) {
-        clearTimeout(moleTimer);
-      }
     };
-  }, [endGame, moleTimer]);
+  }, [endGame]);
 
   useEffect(() => {
     const moleTimer = setInterval(showMole, 1000);
