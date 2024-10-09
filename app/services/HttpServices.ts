@@ -29,7 +29,7 @@ export abstract class HttpServices {
     data?: Record<string, unknown>,
   ): Promise<AxiosResponse> {
     try {
-      const baseUrl = 'http://localhost:3000';
+      const baseUrl = 'https://mole-hunt.netlify.app';
       const url = `${baseUrl}${endpoint}`;
       const options: AxiosRequestConfig = {
         method,
